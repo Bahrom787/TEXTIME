@@ -7,6 +7,7 @@ const Navbar = ({ locale, theme, onToggleTheme, language, onLanguageChange }) =>
   const languages = [
     { code: 'ru', label: 'RU', name: 'Русский' },
     { code: 'en', label: 'EN', name: 'English' },
+    { code: 'zh', label: 'ZH', name: '中文' },
     { code: 'uz', label: 'UZ', name: 'O\'zbek' },
     { code: 'tr', label: 'TR', name: 'Türkçe' }
   ]
@@ -19,7 +20,7 @@ const Navbar = ({ locale, theme, onToggleTheme, language, onLanguageChange }) =>
         <a href="#top" className="logo">TEXTIME</a>
         <ul className="menu">
           <li><a href="#about">{locale.nav.about}</a></li>
-          <li><a href="#works">{locale.nav.collection}</a></li>
+          <li><a href="#collection">{locale.nav.collection}</a></li>
           <li><a href="#contact">{locale.nav.contact}</a></li>
         </ul>
         <div className="nav__tools">

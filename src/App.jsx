@@ -3,11 +3,11 @@ import Navbar from './components/Header/Navbar'
 import Main from './components/Main/Main'
 import Footer from './components/Footer/Footer'
 import Desc from './components/Header/Desc'
-import Works from './components/Main/Works'
+import Collection from './components/Products/Collection'
 import translations from './translations'
 
 const App = () => {
-  const [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState('light')
   const [language, setLanguage] = useState('ru')
   const locale = translations[language]
 
@@ -30,7 +30,7 @@ const App = () => {
       />
       <Desc locale={locale} />
       <Main locale={locale} />
-      <Works locale={locale} />
+      <Collection locale={locale} language={language} />
       <Footer locale={locale} />
     </div>
   )
