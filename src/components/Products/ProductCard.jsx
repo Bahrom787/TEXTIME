@@ -31,7 +31,7 @@ const ProductCard = ({ product, selectedType = 'all', language = 'ru' }) => {
     <>
       <div className="product-card">
         <div className="product-image">
-          <img src={displayImage} alt={displayName} />
+          <img src={displayImage} alt={displayName} loading="lazy" decoding="async" />
         </div>
 
         <div className="product-info">
@@ -52,7 +52,7 @@ const ProductCard = ({ product, selectedType = 'all', language = 'ru' }) => {
                     aria-label={colorLabel}
                     title={colorLabel}
                   >
-                    <img src={variant.image} alt="" />
+                    <img src={variant.image} alt="" loading="lazy" decoding="async" />
                   </button>
                 )
               })}

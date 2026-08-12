@@ -20,6 +20,36 @@ const ProductModal = ({ product, isOpen, onClose, initialVariantIndex = 0, langu
     setSelectedVariantIndex(initialVariantIndex)
   }, [initialVariantIndex, product?.id])
 
+  useEffect(() => {
+    if (!isOpen) return
+
+    document.body.classList.add('no-scroll')
+
+    return () => {
+      if (!document.querySelector('.modal-overlay')) {
+        document.body.classList.remove('no-scroll')
+      }
+    }
+  }, [isOpen])
+
+  const goToVariant = direction => {
+    if (!hasVariants) return
+    const total = product.variants.length
+    setSelectedVariantIndex(prev => (prev + direction + total) % total)
+  }
+
+  useEffect(() => {
+    if (!isOpen) return
+    const onKeyDown = event => {
+      if (event.key === 'Escape') onClose()
+      if (event.key === 'ArrowLeft') goToVariant(-1)
+      if (event.key === 'ArrowRight') goToVariant(1)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, hasVariants, product])
+
   if (!isOpen || !product) return null
 
   return (
@@ -29,7 +59,27 @@ const ProductModal = ({ product, isOpen, onClose, initialVariantIndex = 0, langu
 
         <div className="product-modal-body">
           <div className="product-modal-image">
-            <img src={displayImage} alt={displayName} />
+            {hasVariants && (
+              <button
+                type="button"
+                className="modal-nav prev"
+                onClick={() => goToVariant(-1)}
+                aria-label={catalogCopy.color}
+              >
+                ‹
+              </button>
+            )}
+            <img src={displayImage} alt={displayName} loading="lazy" decoding="async" />
+            {hasVariants && (
+              <button
+                type="button"
+                className="modal-nav next"
+                onClick={() => goToVariant(1)}
+                aria-label={catalogCopy.color}
+              >
+                ›
+              </button>
+            )}
           </div>
 
           <div className="product-modal-info">
@@ -54,7 +104,7 @@ const ProductModal = ({ product, isOpen, onClose, initialVariantIndex = 0, langu
                         aria-label={colorLabel}
                         title={colorLabel}
                       >
-                        <img src={variant.image} alt="" />
+                        <img src={variant.image} alt="" loading="lazy" decoding="async" />
                       </button>
                     )
                   })}

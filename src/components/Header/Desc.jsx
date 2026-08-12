@@ -8,7 +8,7 @@ const Desc = ({ locale }) => {
         <h1>{locale.hero.title}</h1>
         <p>{locale.hero.description}</p>
         <div className="hero__actions">
-          <a href="#works" className="button button--primary">{locale.hero.primaryBtn}</a>
+          <a href="#collection" className="button button--primary">{locale.hero.primaryBtn}</a>
           <a href="#contact" className="button button--ghost">{locale.hero.ghostBtn}</a>
         </div>
       </div>

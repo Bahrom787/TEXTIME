@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ProductCard from './ProductCard'
 import Products from './Products'
 import { getCatalogProducts } from '../../data/productGroups'
@@ -8,6 +8,20 @@ const Collection = ({ language = 'ru' }) => {
   const [showFullCatalog, setShowFullCatalog] = useState(false)
   const collectionProducts = getCatalogProducts().slice(0, 6)
   const catalogCopy = getCatalogCopy(language)
+
+  useEffect(() => {
+    document.body.classList.toggle('no-scroll', showFullCatalog)
+    return () => document.body.classList.remove('no-scroll')
+  }, [showFullCatalog])
+
+  useEffect(() => {
+    if (!showFullCatalog) return
+    const onKeyDown = event => {
+      if (event.key === 'Escape') setShowFullCatalog(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [showFullCatalog])
 
   return (
     <>

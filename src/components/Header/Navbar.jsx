@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../../assets/css/main.css'
 
 const Navbar = ({ locale, theme, onToggleTheme, language, onLanguageChange }) => {
   const [isLangOpen, setIsLangOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const languages = [
     { code: 'ru', label: 'RU', name: 'Русский' },
@@ -13,6 +14,22 @@ const Navbar = ({ locale, theme, onToggleTheme, language, onLanguageChange }) =>
   ]
 
   const currentLang = languages.find(lang => lang.code === language)
+
+  useEffect(() => {
+    document.body.classList.toggle('no-scroll', isMobileMenuOpen)
+    return () => document.body.classList.remove('no-scroll')
+  }, [isMobileMenuOpen])
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+    const onKeyDown = event => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [isMobileMenuOpen])
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
   return (
     <nav className="nav">
@@ -57,9 +74,30 @@ const Navbar = ({ locale, theme, onToggleTheme, language, onLanguageChange }) =>
               </ul>
             )}
           </div>
+          <button
+            type="button"
+            className={`nav__burger ${isMobileMenuOpen ? 'is-open' : ''}`}
+            onClick={() => setIsMobileMenuOpen(open => !open)}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label="Menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </div>
       {isLangOpen && <div className="lang-overlay" onClick={() => setIsLangOpen(false)} />}
+
+      <div id="mobile-menu" className={`mobile-menu ${isMobileMenuOpen ? 'is-open' : ''}`}>
+        <ul className="mobile-menu__list">
+          <li><a href="#about" onClick={closeMobileMenu}>{locale.nav.about}</a></li>
+          <li><a href="#collection" onClick={closeMobileMenu}>{locale.nav.collection}</a></li>
+          <li><a href="#contact" onClick={closeMobileMenu}>{locale.nav.contact}</a></li>
+        </ul>
+      </div>
+      {isMobileMenuOpen && <div className="mobile-menu-overlay" onClick={closeMobileMenu} />}
     </nav>
   )
 }
