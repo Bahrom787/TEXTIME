@@ -2787,7 +2787,27 @@ select:focus-visible {
   }
 
   .nav__wrapper {
+    position: relative;
+    z-index: 100;
     min-height: 68px;
+  }
+
+  .mobile-menu {
+    top: 68px;
+    bottom: auto;
+    width: 100%;
+    padding: 12px 20px 20px;
+    border-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transform: translateY(-120%);
+  }
+
+  [data-theme="light"] .mobile-menu {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .mobile-menu.is-open {
+    transform: translateY(0);
   }
 
   .header__content {
